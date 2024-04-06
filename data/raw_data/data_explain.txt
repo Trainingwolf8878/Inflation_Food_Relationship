@@ -1,0 +1,9 @@
+Date: The date of that day
+beef: Monthly price of the beef
+pork: Monthly price of the pork
+chiken: Monthly price of the chiken
+milk: Monthly price of the milk
+eggs: Monthly price of the eggs
+inf_rate: Inflation rate of the year
+av_wage1:Average hourly wages by Indigenous group
+av_wage2:Average hourly wages by non-Indigenous group
