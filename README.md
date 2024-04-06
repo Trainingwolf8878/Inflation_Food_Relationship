@@ -2,6 +2,9 @@
 
 This repository examines the relationship between average hourly wages, average usual weekly hours across different Indigenous groups, monthly average retail prices for selected products, and inflation. It contains all the necessary files and code to conduct the analysis, as well as a research paper summarizing the investigation and findings.
 
+> **Note**<br>
+> The research paper associated with this study is available [here]()
+> 
 ### Data sources
 
 Average hourly and weekly wages and average usual weekly hours by Indigenous group [here](https://www150.statcan.gc.ca/t1/tbl1/en/cv.action?pid=1410041801).
