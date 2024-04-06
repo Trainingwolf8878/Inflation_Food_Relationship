@@ -4,13 +4,13 @@ This repository examines the relationship between average hourly wages, average 
 
 ### Data sources
 
-Average hourly and weekly wages and average usual weekly hours by Indigenous group [here]（https://www150.statcan.gc.ca/t1/tbl1/en/cv.action?pid=1410041801）
+Average hourly and weekly wages and average usual weekly hours by Indigenous group [here](https://www150.statcan.gc.ca/t1/tbl1/en/cv.action?pid=1410041801).
 * /data/raw_data: 1410041801-eng.csv
 
-Monthly average retail prices for selected products [here]（https://www150.statcan.gc.ca/t1/tbl1/en/cv.action?pid=1810024501)
+Monthly average retail prices for selected products [here](https://www150.statcan.gc.ca/t1/tbl1/en/cv.action?pid=1810024501).
 * /data/raw_data: 1810024501-eng.csv
 
-Inflation: inflation data from bank of canada [here]（https://www.bankofcanada.ca/rates/indicators/capacity-and-inflation-pressures/inflation)
+Inflation: inflation data from bank of canada [here](https://www.bankofcanada.ca/rates/indicators/capacity-and-inflation-pressures/inflation).
 * /data/raw_data: INDINF_LOWTARGET,INDINF_UPPTARGET,INDINF_CPI_M.csv
 
 ## Statement on LLM Usage
