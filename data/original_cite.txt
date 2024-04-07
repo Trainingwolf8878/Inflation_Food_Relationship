@@ -1,0 +1,9 @@
+Average hourly and weekly wages and average usual weekly hours by Indigenous group <https://www150.statcan.gc.ca/t1/tbl1/en/cv.action?pid=1410041801> -1410041801-eng.csv
+
+Monthly average retail prices for selected products <https://www150.statcan.gc.ca/t1/tbl1/en/cv.action?pid=1810024501> -1810024501-eng.csv
+
+Inflation: Definitions, graphs and data <https://www.bankofcanada.ca/rates/indicators/capacity-and-inflation-pressures/inflation> -INDINF_LOWTARGET,INDINF_UPPTARGET,INDINF_CPI_M.csv
+
+Employees rate: The rate of the employee <https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410001701&pickMembers%5B0%5D=1.1&pickMembers%5B1%5D=2.10&cubeTimeFrame.startMonth=01&cubeTimeFrame.startYear=2017&cubeTimeFrame.endMonth=12&cubeTimeFrame.endYear=2023&referencePeriods=20170101%2C20231201> -1410001701-eng.csv
+
+gasoline and fuel oil price: <https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000101> -1810000101-eng.csv
