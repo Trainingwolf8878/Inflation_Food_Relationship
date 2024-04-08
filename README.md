@@ -1,6 +1,6 @@
-# What are the trends in daily food prices under different levels of inflation and average wages?
+# Are Meat Prices, Gasoline Costs, Inflation Rates, and Wage Trends Interrelated?
 
-This repository examines the relationship between average hourly wages, average usual weekly hours across different Indigenous groups, monthly average retail prices for selected products, and inflation. It contains all the necessary files and code to conduct the analysis, as well as a research paper summarizing the investigation and findings.
+This repository examines the relationship between average hourly wages, average usual weekly hours across different Indigenous groups, monthly average retail prices for selected products, gasoline price and inflation. It contains all the necessary files and code to conduct the analysis, as well as a research paper summarizing the investigation and findings.
 
 > The conclusion with this question can be find [here]()
 
@@ -14,6 +14,12 @@ Monthly average retail prices for selected products [here](https://www150.statca
 
 Inflation: inflation data from bank of canada [here](https://www.bankofcanada.ca/rates/indicators/capacity-and-inflation-pressures/inflation).
 * /data/raw_data: INDINF_LOWTARGET,INDINF_UPPTARGET,INDINF_CPI_M.csv
+
+Employees rate: The rate of the employee [here](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410001701&pickMembers%5B0%5D=1.1&pickMembers%5B1%5D=2.10&cubeTimeFrame.startMonth=01&cubeTimeFrame.startYear=2017&cubeTimeFrame.endMonth=12&cubeTimeFrame.endYear=2023&referencePeriods=20170101%2C20231201).
+* /data/raw_data: 1410001701-eng.csv
+
+Gasoline price: The price of gasoline [here](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000101)
+* /data/raw_data: 1810000101-eng.csv
 
 ## Statement on LLM Usage
 
