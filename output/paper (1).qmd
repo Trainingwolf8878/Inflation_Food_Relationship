@@ -1,0 +1,342 @@
+---
+title: "Are Meat Prices, Gasoline Costs, Inflation Rates, and Wage Trends Interrelated?"
+author: 
+  - Lin Dai
+thanks: "Code and data are available at: https://github.com/Trainingwolf8878/Inflation_Food_Relationship/tree/main?tab=readme-ov-file"
+date: today
+date-format: long
+abstract: "This study explores the potential interrelationships among meat prices, gasoline costs, inflation rates, and wage trends, employing linear regression models for analysis. In an era marked by economic volatility, understanding the dynamics between these key variables is crucial for policymakers, economists, and consumers alike. Through quantitative analysis and linear regression modeling, this research aims to elucidate the extent to which changes in meat prices and gasoline costs correlate with fluctuations in inflation rates and wage levels. By examining historical data and employing robust analytical techniques, we uncover the relationships between these variables and discuss possible causal relationships."
+format: pdf
+number-sections: true
+toc: true
+bibliography: references.bib
+---
+# Introduction
+
+The global outbreak of COVID-19 in early 2020 triggered unprecedented disruptions across various sectors of the economy, prompting a need for comprehensive analysis to understand its impact. This study focuses on examining the interplay between key economic indicators—meat prices, gasoline costs, inflation rates, and wage trends—during the period from January 2017 to December 2023, with a particular emphasis on the effects of the COVID-19 pandemic.
+
+By segmenting the data into pre- and post-pandemic periods, this study aims to explore how the COVID-19 outbreak has influenced the relationships between meat prices, gasoline costs, inflation rates, and wage trends. Understanding these dynamics is essential for policymakers, economists, and stakeholders to devise effective strategies for mitigating the economic impacts of future crises and fostering resilience in the face of uncertainty.
+
+# Data {#sec-data}
+## Data Source
+
+In our research, we meticulously selected meat prices, gasoline prices, inflation rates, wages, and dates as the key factors for investigation. Our objective is to delve deeply into the relationships among these variables and understand how they influence each other. The data we utilized was obtained from the Canadian government website, covering the period from January 2017 to December 2023. The selection of this timeframe was primarily driven by our interest in exploring the changes in data before and after the onset of the COVID-19 pandemic.However, it is important to emphasize that the wage and gasoline price data included in our dataset represent the average values for each month across various regions. This may introduce some degree of bias into our results.By examining these variables and their interactions over time, we aim to draw meaningful conclusions regarding their relationships and impacts. While acknowledging potential limitations due to data aggregation methods, our analysis seeks to contribute valuable insights to the understanding of economic dynamics in the context of the COVID-19 pandemic and beyond.
+
+## Data clean
+
+During the data cleaning process, I utilized Excel spreadsheets obtained from the Canadian government website. For gasoline prices, I calculated the average prices across various regions in Canada. Subsequently, I merged the required data from these Excel files and pasted them into a new Excel spreadsheet for further analysis.
+
+## Methodology
+
+To conduct our analysis, we employed the R programming language, complemented by an array of packages that facilitated our data handling, visualization, and statistical modeling processes [@citeR].  These included tidyverse for comprehensive data manipulation [@tidyverse], dataverse for seamless access to the Dataverse datasets [@dataverse], arrow for efficient data integration [@arrow], and rstanarm for advanced Bayesian modeling [@rstanarm].  Additionally, we utilized knitr for dynamic reporting [@knitr], here for effective path management [@here], ggplot2 for sophisticated visualizations [@ggplot2], scales for visual enhancements [@scales], modelsummary for concise model summaries [@modelsummary], and marginaleffects for calculating the predictive impacts of our selected variables [@marginaleffects].  
+
+## Variables
+
+There have 2 file each are clean data and simulated data, for each two file are both csv file. In the cleaned data has 11 variables, each are Date, Milk price, Eggs price, Pork price, Chicken price, Beef price, Inflation rate, Average wage in Indigenous and non-indigenous, Gasoline price, Employee rate.
+
+[clean_data.csv]{.underline}
+
+-   Date : The date of day (2017-01 to 2023-12)
+-   beef : The price of the beef (8.440 to 12.710)
+-   pork : The price of the pork (6.870 to 12.320)
+-   chicken : The price of the chicken (4.960 to 6.990)
+-   milk : The price of the milk (2.170 to 3.000)
+-   eggs : The price of the eggs (3.010 to 4.710)
+-   inf_rate : The rate of inflation (-0.400 to 8.100)
+-   av_wage1 : The average wage of the indigenous (24.18 to 30.09)
+-   av_wage2 : The average wage of the non-indigenous (26.90 to 33.67)
+-   gas_price : The average price of the gasoline between Canada (77.8 to 207.2)
+-   emp_rate : The employee rate (57.64 to 71.85)
+
+[simulated_data.csv]{.underline}
+
+-   Date : The date of day (2017-01 to 2023-12)
+-   beef : The price of the beef (5 to 15)
+-   chicken : The price of the chicken (5 to 15)
+-   milk : The price of the milk (1 to 3)
+-   eggs : The price of the eggs (2 to 5)
+-   inf_rate : The rate of inflation (-1 to 2)
+-   av_wage1 : The average wage of the indigenous (16 to 25)
+-   av_wage2 : The average wage of the non-indigenous (16 to 25)
+-   gas_price : The average price of the gasoline between Canada (90 to 170)
+-   emp_rate : The employee rate (50 to 70)
+
+## Measurement and visualization
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-gas-inflation
+#| fig-cap: "Gasoline price and inflation rate"
+
+# Work space set up
+library(ggplot2)
+library(readr)
+library(patchwork)
+
+# Import data
+clean_data <- read_csv("/cloud/project/input/data/clean_data/clean_data.csv")
+
+# Change the date type with column Date in clean data
+clean_data$date <- as.Date(clean_data$Date)
+
+# Rename the file
+data <- clean_data
+
+# Plot the data of gasoline price trends
+gas_price_plot <- ggplot(data, aes(x = date, y = gas_price)) +
+  geom_line(color = "red", size = 1) +
+  geom_point(color = "red", size = 3) +
+  labs(title = "Gas Price Trend",
+       x = "Date",
+       y = "Gas Price") +
+  theme_minimal()
+
+# Plot the data of inflation rate trends
+inf_rate_plot <- ggplot(data, aes(x = date, y = inf_rate)) +
+  geom_line(color = "green", size = 1) +
+  geom_point(color = "green", size = 3) +
+  labs(title = "Inflation Rate Trend",
+       x = "Date",
+       y = "Inflation Rate") +
+  theme_minimal()
+
+# Combine plots
+combined_plot <- gas_price_plot + inf_rate_plot
+
+# Print combined plot
+print(combined_plot)
+```
+
+# Gas between inflation rate
+
+The graph illustrates the trajectory of gasoline prices from 2018 to 2024, showcasing a notable upward trend over this period.  Initially stable, prices begin to sharply increase around 2020, peaking around 2022 before gradually tapering off.  This upward movement likely mirrors disruptions in supply chains and fluctuations in oil prices influenced by geopolitical tensions and economic uncertainties, notably those instigated by the COVID-19 pandemic.
+
+Analyzing the peaks and troughs can offer insights into the impact of global oil supply dynamics and national policy changes affecting fuel taxation and environmental levies.  Moreover, this upward trend in gasoline prices correlates with broader economic conditions, influencing consumer spending, transportation costs, and ultimately, the overall cost of goods and services.
+
+The inflation rate trend from 2018 to 2024 exhibits relatively stable inflation in the early years, with a significant spike occurring around the same time as the gasoline price increase.  The correlation between these two datasets is evident, suggesting that the rise in fuel prices may have contributed to overall inflationary pressures.
+
+Further analysis of this inflation spike could delve into its effects on purchasing power, interest rates, and wage stagnation.  The timing of the spike, particularly around 2020-2022, could be attributed to the economic aftermath of the pandemic, reflecting increased costs of logistics and production that are passed on to consumers.  The graph visually underscores how external shocks, such as a pandemic, can drive inflationary trends, impacting economies on a large scale.
+
+The upward trajectory of gasoline prices from 2018 to 2024, punctuated by a significant spike around 2020-2022, reflects disruptions in supply chains and fluctuations in oil prices, influenced by geopolitical tensions and economic uncertainties, including those arising from the COVID-19 pandemic.  This trend is closely correlated with inflationary pressures, indicating the interconnectedness of fuel prices with broader economic conditions.  Further analysis of these trends is crucial for understanding their implications on consumer spending, transportation costs, inflation, and overall economic stability.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-food-employee
+#| fig-cap: "Employee rate and food price"
+
+# Work space set up
+library(ggplot2)
+library(readr)
+library(patchwork)
+
+# Import data
+clean_data <- read_csv("/cloud/project/input/data/clean_data/clean_data.csv")
+
+# Change the date type with column Date in clean data
+clean_data$date <- as.Date(clean_data$Date)
+
+# Rename the file
+data <- clean_data
+
+# Plot the employee rate trends
+emp_rate_plot <- ggplot(data, aes(x = date, y = emp_rate)) +
+  geom_line(color = "blue", size = 1) +
+  geom_point(color = "blue", size = 3) +
+  labs(title = "Employment Rate Trend",
+       x = "Date",
+       y = "Employment Rate") +
+  theme_minimal()
+
+# Plot the data with line graph of daily food price
+food_price_plot <- ggplot(data, aes(x = date)) +
+  geom_line(aes(y = beef, color = "Beef"), size = 1) +
+  geom_point(aes(y = beef, color = "Beef"), size = 3) +
+  geom_line(aes(y = pork, color = "Pork"), size = 1) +
+  geom_point(aes(y = pork, color = "Pork"), size = 3) +
+  geom_line(aes(y = chicken, color = "Chicken"), size = 1) +
+  geom_point(aes(y = chicken, color = "Chicken"), size = 3) +
+  geom_line(aes(y = milk, color = "Milk"), size = 1) +
+  geom_point(aes(y = milk, color = "Milk"), size = 3) +
+  geom_line(aes(y = eggs, color = "Eggs"), size = 1) +
+  geom_point(aes(y = eggs, color = "Eggs"), size = 3) +
+  scale_color_manual(values = c("Beef" = "red", "Pork" = "blue", "Chicken" = "green", "Milk" = "orange", "Eggs" = "purple")) +
+  labs(title = "Daily Food Price Trends",
+       x = "Date",
+       y = "Price",
+       color = "Commodity") +
+  theme_minimal()
+
+# Combine all plots
+combined_plot <- food_price_plot + emp_rate_plot
+
+# Print combined plot
+print(combined_plot)
+```
+
+# Food price between employee rate
+
+The graph illustrates the price trends of various food commodities—beef, chicken, eggs, milk, and pork—from 2018 to 2024.  Each commodity's price trajectory reflects unique market conditions and supply chain dynamics.  Notably, all items exhibit an upward price trend, influenced by factors such as inflation, changes in global trade policies, environmental conditions affecting agricultural outputs, and shifts in consumer demand.
+
+Analyzing each food item's price trend provides insights into sector-specific challenges.  For example, beef prices may be influenced by feed costs and export-import regulations, while milk prices could be affected by dairy production rates and agricultural subsidy policies.
+
+Contrastingly, the employment rate trend displayed alongside food prices shows a steady increase from 2018 to 2024, indicative of a strengthening economy.  However, the simultaneous rise in food prices suggests that economic benefits may not be evenly distributed, or that wage growth is not keeping pace with inflation, leading to a 'wage-price spiral'.
+
+Dissecting the employment rate rise highlights growth sectors and their connection to broader economic policies and global conditions.  Understanding the relationship between employment rates and consumer prices is crucial, especially in assessing whether increased employment mitigates the impact of rising food prices on average households.
+
+These analyses provide a snapshot of economic indicators and underscore the interconnectedness of various economic variables.  By examining these trends, policymakers, economists, and businesses can strategize to mitigate negative impacts and leverage positive trends for future economic planning and stability.
+
+The trends in food prices and employment rates from 2018 to 2024 reveal important insights into the economy's dynamics.  While food prices steadily increase, indicating various underlying factors at play, the employment rate suggests overall economic growth.  However, the concurrent rise in food prices and employment rates underscores the need for nuanced policy responses to ensure equitable distribution of economic benefits and address inflationary pressures.  Understanding these trends and their interplay is crucial for effective policymaking and sustainable economic development.
+
+# Model {#sec-data}
+
+## Model Set up
+
+In our investigation, we formulate the models with an intent to decipher the potential interconnections among meat prices, gasoline costs, inflation rates, and wage trends. Two linear regression models are constructed to quantify these relationships within distinct time frames – pre- and post- the pivotal COVID-19 pandemic onset。
+
+
+**Model 1: Pre-pandemic Analysis**
+
+The first model is set to examine the interaction between meat prices (beef, pork, chicken), gasoline prices, and the employment rate before the pandemic shock. It is specified as:
+
+$$
+\text{inf\_rate} = \beta_0 + \beta_1 \text{beef} + \beta_2 \text{pork} + \beta_3 \text{chicken} + \beta_4 \text{gas\_price} + \beta_5 \text{emp\_rate} + \epsilon
+$$
+
+**Model 2: Post-pandemic Exploration**
+
+The second model extends the initial model by including average wages (indigenous and non-indigenous) post-pandemic, hypothesizing an altered economic landscape due to the pandemic. The model is given by:
+
+$$
+\text{inf\_rate} = \beta_0 + \beta_1 \text{beef} + \beta_2 \text{pork} + \beta_3 \text{chicken} + \beta_4 \text{gas\_price} + \beta_5 \text{emp\_rate} + \beta_6 \text{av\_wage1} + \beta_7 \text{av\_wage2} + \epsilon
+$$
+
+Each coefficient ($\beta$) in the models interprets the change in the inflation rate associated with a one-unit change in the predictor variables, assuming all other variables are held constant.
+
+For the analytical process, we utilize the R statistical environment, drawing upon its powerful libraries for linear modeling and inference. The tidyverse suite supports data manipulation, while modelsummary provides a concise representation of our model outcomes.
+
+Our models' fit is assessed using standard metrics such as R-squared, Adjusted R-squared, AIC, BIC, and RMSE. These metrics will guide us in understanding the explanatory power and predictive accuracy of our models. Notably, the second model, with its inclusion of additional wage variables, shows a higher R-squared value, suggesting an improved fit to the data.
+
+To conduct our analysis, we first ensured a robust data preparation phase, cleaning and structuring the data extracted from government databases to meet our analytical requirements. This phase is pivotal in refining the quality of our inputs and, consequently, the reliability of our regression outcomes.
+
+**Model Justification**
+
+The rationale behind our model selection lies in the linear regression's aptness for identifying the relationship between a continuous outcome variable (inflation rate) and several predictor variables. Considering the economic indicators' continuous nature and the hypothesis of linear interrelations, the regression approach stands out as an inherently suitable method.
+
+Furthermore, the inclusion of wage variables in the post-pandemic model acknowledges the profound economic shifts instigated by the pandemic, demanding an adapted framework for our analysis. It captures the nuances and complexities introduced by COVID-19, delivering a more representative depiction of the current economic state.
+
+The models will allow us to understand not only the direct effects but also to interpret the economic narrative that interweaves these variables, providing insights into policy formulation and economic predictions in a world altered by a global pandemic.
+
+
+
+## Result
+
+```{r}
+#| echo: false
+#| message: false
+#| include: false
+
+# Work space set up
+
+library(tidyverse)
+library(tidymodels)
+library(modelsummary)
+library(nflverse)
+library(dplyr)
+library(readr)
+
+# Import data
+
+data <- read_csv("/cloud/project/input/data/clean_data/clean_data.csv")
+
+
+# Filter data for training set
+
+data_train <- data %>%
+  filter(Date <= as.Date("2020-12-01"))
+
+data_test <- data %>%
+  filter(Date > as.Date("2020-12-01"))
+
+```
+
+```{r}
+#| echo: false
+
+# Set model 1 and model 2
+
+first_model_tidymodels <-
+  linear_reg() |>
+  set_engine(engine = "lm") |>
+  fit(
+    inf_rate ~ beef + chicken + pork + gas_price + emp_rate  ,
+    data = data_train
+  )
+
+second_model_tidymodels <-
+  linear_reg() |>
+  set_engine(engine = "lm") |>
+  fit(
+    inf_rate ~ beef + chicken + pork + gas_price + emp_rate + av_wage1 + av_wage2,
+    data = data_test
+  )
+
+modelsummary(list("Model 1" = first_model_tidymodels,
+                  "Model 2" = second_model_tidymodels))
+
+```
+
+- Intercepts: Both models have a significant negative intercept, but it's much larger in magnitude for Model 2, suggesting a baseline decrease in inflation when all predictors are zero.
+
+- Beef: In Model 1, the coefficient for beef is slightly negative, suggesting a minor decrease in inflation associated with beef prices. In Model 2, the negative effect is larger, indicating that beef prices have a more substantial impact on inflation in the latter period.
+
+- Chicken: The coefficient for chicken is negative in Model 1 but positive in Model 2. This change in sign may indicate a shift in how chicken prices are related to inflation across the two periods.
+
+- Pork: Pork has a negative coefficient in Model 1 but a positive one in Model 2, suggesting a change in the relationship between pork prices and inflation similar to that of chicken.
+
+- Gas_price: Gas price has a positive coefficient in both models, but it's larger in Model 1, suggesting that rising gas prices have a stronger association with increasing inflation in the earlier period.
+
+- Emp_rate (Employment rate): This has a positive coefficient in both models, with a notably larger magnitude in Model 2, indicating a stronger relationship between employment rate and inflation in the more recent period.
+
+- Av_wage1 and Av_wage2: These variables are only included in Model 2, with av_wage1 having a large positive coefficient, and av_wage2 having a large negative coefficient, suggesting a complex relationship between different aspects of wages and inflation.
+
+- Number of Observations: Model 1 is based on more observations than Model 2.
+
+- R² and Adjusted R²: Model 2 has a higher R² and Adjusted R², which implies that it explains a higher proportion of the variance in inflation. This may be because Model 2 includes additional predictors.
+
+- AIC and BIC: The AIC and BIC are higher for Model 2, which is expected given the additional parameters, but it's necessary to consider whether the increase in model complexity is justified by the improvement in model fit.
+
+- RMSE (Root Mean Square Error): The RMSE is higher in Model 2, suggesting that the predictions from Model 2 have greater average error.
+
+From the comparison, it seems that the relationship between the predictors and inflation rate has changed over time, as evidenced by the different signs and magnitudes of coefficients between the two models. Model 2, which includes wage variables, provides a better fit in terms of R², but it also has a higher RMSE, indicating that while it explains more variance, its predictions are less precise on average.
+
+The changes in coefficients across the models could be due to several factors, such as economic policy changes, market dynamics, or shifts in consumer behavior post-2020. The differences in model performance metrics suggest that while adding additional wage variables improves the explanatory power of the model, it doesn't necessarily lead to more accurate predictions.
+
+This analysis highlights the importance of regularly updating economic models and reassessing the factors influencing key outcomes like inflation. It also suggests that while more complex models can offer better explanatory power, this does not always translate to better predictive performance.
+
+# Discussion {#sec-data}
+
+## Bias in Economic Indicators
+
+The presence of bias in economic data is an inherent challenge that can distort the interpretation of relationships between variables. In this study, the aggregation of monthly data across various regions in Canada may introduce bias, obscuring the finer dynamics at play within local economies. Moreover, the use of average values can mask the heterogeneity of wage levels and gas prices, potentially leading to an under- or overestimation of their impact on inflation rates. Such biases necessitate a cautious approach to interpreting the results and underscore the need for more granular data to validate our findings.
+
+## Possible Economic Dynamics
+
+Our analysis suggests that meat prices, particularly beef and pork, exhibit a more pronounced relationship with inflation in the post-pandemic model, possibly reflecting shifts in supply chain dynamics and consumer behavior due to COVID-19. The notable influence of wages on inflation post-pandemic underlines the complexity of the wage-inflation nexus. These findings illuminate possible economic dynamics where the pandemic may have altered traditional relationships, hinting at deeper economic restructuring and a new paradigm in the interplay of these key indicators.
+
+## Limitations and Future Directions
+
+The limitations of this study are multi-fold. Firstly, the use of linear models may not capture the non-linearities and interactive effects inherent in economic relationships. Secondly, the dataset only covers the period up to December 2023, potentially omitting subsequent economic developments. For future research, expanding the model to include additional economic variables, such as consumer spending and housing prices, could offer a more comprehensive understanding. Furthermore, exploring models that capture non-linear dynamics may yield insights into the complex mechanisms underlying economic indicators. Lastly, considering the impact of global economic trends and policies could provide a more holistic understanding of the interdependencies between these critical factors.
+
+# References
+
+Statistics Canada. (2022). Table 32-10-0359-01 Average retail prices for food and other selected products. https://www150.statcan.gc.ca/t1/tbl1/en/cv.action?pid=3210035901
+
+Bank of Canada. (2022). Indicators of capacity and inflation pressures for Canada. https://www.bankofcanada.ca/rates/indicators/capacity-and-inflation-pressures/inflation
+
+Statistics Canada. (2022). Table 14-10-0202-01 Employment and average weekly earnings (including overtime) for all employees. https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410020201
+
+Statistics Canada. (2022). Table 14-10-0017-01 Employment by industry, monthly, seasonally adjusted and unadjusted, and trend-cycle (x 1,000). https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410001701
