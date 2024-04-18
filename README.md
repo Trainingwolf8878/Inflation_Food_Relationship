@@ -2,7 +2,7 @@
 
 This repository examines the relationship between average hourly wages, average usual weekly hours across different Indigenous groups, monthly average retail prices for selected products, gasoline price and inflation. It contains all the necessary files and code to conduct the analysis, as well as a research paper summarizing the investigation and findings.
 
-> The conclusion with this question can be find [here]()
+> The conclusion with this question can be find [here](/output/paper.pdf)
 
 ### Data sources
 
@@ -27,13 +27,13 @@ Some of the code are written with the help of ChatGPT, the entire chat history w
 
 ## File Structure
 
-* /inputs/sketches : with some sketchs with the dataset
+* /inputs/graph/clean_data : with some graph with clean data
+* /inputs/graph/simulated_data : with some graph with simulated data
 * /inputs/data/raw_data : some raw datasets(contain the test of data)
 * /inputs/data/cleaned_data : cleaned row datasets(contain the test of data)
 * /inputs/data/simulated_data : simulated datasets(contain the test of data)
-* /inputs/llm : The LLM usage with ChatGPT entire chat history
-* /inputs/sketches: it contain the sketch of the table and graph
-* /outputs/graphs : contains graphs that work on the R
+* /others/llm : The LLM usage with ChatGPT entire chat history
+* /input/graph: it contain the sketch of the table and graph
 * /outputs/paper : The final paper and table use in the report
 * /scripts : R scripts used for data analysis
 
