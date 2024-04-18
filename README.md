@@ -2,7 +2,7 @@
 
 This repository examines the relationship between average hourly wages, average usual weekly hours across different Indigenous groups, monthly average retail prices for selected products, gasoline price and inflation. It contains all the necessary files and code to conduct the analysis, as well as a research paper summarizing the investigation and findings.
 
-> The conclusion with this question can be find [here](/output/paper(1).pdf)
+> The conclusion with this question can be find [here](/output/paper (1).pdf)
 
 ### Data sources
 
